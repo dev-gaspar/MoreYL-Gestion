@@ -126,6 +126,7 @@ public class Controlador implements ActionListener {
         /*Eventos de cerrar*/
         if (e.getSource() == vista.getBtn_ver_cerrar()) {
             guardarArchivo();
+            bd.guardarContador();
             System.exit(0);
         }
 
@@ -244,7 +245,7 @@ public class Controlador implements ActionListener {
             double deuda = -(cantidad * bd.buscarProducto(producto).getCredito());
 
             if (!producto.equals("")) {
-                Deuda nuevaDeuda = new Deuda(bd.contador_deudas, cliente, producto, fecha, deuda);
+                Deuda nuevaDeuda = new Deuda(bd.contador.getContador_deudas(), cliente, producto, fecha, deuda);
                 bd.guardarDeuda(nuevaDeuda);
                 mensaje("Deuda generada");
             } else {

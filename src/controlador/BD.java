@@ -1,5 +1,11 @@
 package controlador;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import modelos.Cliente;
@@ -12,10 +18,12 @@ public class BD implements Serializable {
     private ArrayList<Producto> productos;
     private ArrayList<Deuda> deudas;
 
-    int contador_deudas;
+    ContadorDeudas contador;
 
     public BD() {
-        contador_deudas = 1;
+
+        contador = new ContadorDeudas();
+        recuperarContador();
 
         clientes = new ArrayList<>();
         productos = new ArrayList<>();
@@ -60,7 +68,7 @@ public class BD implements Serializable {
 
     public void guardarDeuda(Deuda deuda) {
         deudas.add(deuda);
-        contador_deudas++;
+        contador.aumentarContador();
         System.out.println("Deuda guardada");
     }
 
@@ -192,6 +200,44 @@ public class BD implements Serializable {
 
     public void setDeudas(ArrayList<Deuda> deudas) {
         this.deudas = deudas;
+    }
+
+    /*Archivo de contador*/
+    //Archivos DAT
+    public void guardarContador() {
+        try {
+            FileOutputStream archivo = new FileOutputStream("Contador.dat");
+            ObjectOutputStream salida = new ObjectOutputStream(archivo);
+            salida.writeObject(contador);
+            salida.close();
+            archivo.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("No se puede crear o encontrar el archivo");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Hubo un error en el sistema");
+            e.printStackTrace();
+        }
+    }
+
+    public void recuperarContador() {
+        try {
+            FileInputStream archivo = new FileInputStream("Contador.dat");
+            ObjectInputStream entrada = new ObjectInputStream(archivo);
+            contador = (ContadorDeudas) entrada.readObject();
+            entrada.close();
+            archivo.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("No se puede crear o encontrar el archivo");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("No se encontro o no existen clases serializadas");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Hubo un error en el sistema");
+            e.printStackTrace();
+        }
     }
 
 }
