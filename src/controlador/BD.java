@@ -3,6 +3,7 @@ package controlador;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,7 +11,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import modelos.Cliente;
 import modelos.Deuda;
+import modelos.DeudaCsv;
 import modelos.Producto;
+
+import org.supercsv.cellprocessor.constraint.NotNull;
+import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.*;
+import org.supercsv.prefs.CsvPreference;
 
 public class BD implements Serializable {
 
@@ -237,6 +244,55 @@ public class BD implements Serializable {
         } catch (IOException e) {
             System.out.println("Hubo un error en el sistema");
             e.printStackTrace();
+        }
+    }
+
+    /*Archivo CSV*/
+    public void generarCSVDeudas() {
+
+        ArrayList<DeudaCsv> deudasCsv = new ArrayList<>();
+
+        for (Deuda d : deudas) {
+            deudasCsv.add(new DeudaCsv(String.valueOf(d.getId_deuda()), d.getCliente(), d.getProducto(), d.getFecha(), String.valueOf(d.getDeuda())));
+        }
+
+        String ruta = System.getProperty("user.home");
+
+        String csvFileruta = ruta + "/Desktop/Deudas.csv";
+        ICsvBeanWriter beanWriter = null;
+
+        //Diseñamos las celdas de nuestro csv
+        CellProcessor[] procesador = new CellProcessor[]{
+            new NotNull(), //id
+            new NotNull(), //cliente
+            new NotNull(), //producto
+            new NotNull(), //fecha
+            new NotNull(), //deuda
+        };
+
+        try {
+            beanWriter = new CsvBeanWriter(new FileWriter(csvFileruta), CsvPreference.STANDARD_PREFERENCE);//Crear el archivo csv con preferencias estandar
+            String[] header = {"id", "cliente", "producto", "fecha", "deuda"};//Diseñamos el encabezado
+            beanWriter.writeHeader(header);//forzar la escritura del encabezado
+
+            for (DeudaCsv d : deudasCsv) {//recorremos cada estudiante de la lista
+                beanWriter.write(d, header, procesador);//Forzar la escritura de cada estudiante segun las celdas diseñadas
+            }
+
+            System.out.println("Archivo creado");//Banderita OK!!
+
+            //manejamos excepciones
+        } catch (IOException e) {
+            System.out.println("Error csv");
+            e.printStackTrace();
+        } finally {
+            if (beanWriter != null) {
+                try {
+                    beanWriter.close();
+                } catch (IOException e) {
+                    System.out.println("Error csv");
+                }
+            }
         }
     }
 

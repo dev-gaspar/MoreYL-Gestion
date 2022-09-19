@@ -38,6 +38,7 @@ public class Controlador implements ActionListener {
 
         vista.getBtn_generar_deuda().addActionListener(this);
         vista.getBtn_eliminar_deuda().addActionListener(this);
+        vista.getBtn_generar_cvs().addActionListener(this);
 
         vista.getBtn_registra_abono().addActionListener(this);
         vista.getBtn_ver_abonos().addActionListener(this);
@@ -102,6 +103,10 @@ public class Controlador implements ActionListener {
             eliminarDeuda();
             listarDeudas();
             llenarComboDeudas();
+        }
+
+        if (e.getSource() == vista.getBtn_generar_cvs()) {
+            bd.generarCSVDeudas();
         }
 
         /*Eventos de abonos*/
@@ -273,7 +278,7 @@ public class Controlador implements ActionListener {
         for (Deuda d : deudas) {
             list.add(new Object[]{
                 d.getId_deuda(),
-                d.getCiente(),
+                d.getCliente(),
                 d.getProducto(),
                 d.getFecha(),
                 d.getDeuda()
@@ -340,7 +345,7 @@ public class Controlador implements ActionListener {
 
         Deuda deuda = bd.buscarDeuda(Integer.parseInt(vista.getCb_id_deuda_abono().getSelectedItem().toString()));
 
-        vista.getLabel_abonos().setText("Abonos de " + deuda.getCiente() + " a " + deuda.getProducto());
+        vista.getLabel_abonos().setText("Abonos de " + deuda.getCliente() + " a " + deuda.getProducto());
 
         ArrayList<Abono> abonos = deuda.getAbonos();
         ArrayList<Object[]> list = new ArrayList();

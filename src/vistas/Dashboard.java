@@ -86,6 +86,7 @@ public class Dashboard extends javax.swing.JFrame {
         label_producto1 = new javax.swing.JLabel();
         label_id = new javax.swing.JLabel();
         cb_cantidad_deuda = new javax.swing.JComboBox<>();
+        btn_generar_cvs = new javax.swing.JButton();
         btn_generar_deuda = new javax.swing.JButton();
         btn_eliminar_deuda = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -442,7 +443,7 @@ public class Dashboard extends javax.swing.JFrame {
         cb_id_deuda.setBackground(new java.awt.Color(255, 255, 255));
         cb_id_deuda.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
         cb_id_deuda.setForeground(new java.awt.Color(0, 0, 0));
-        panel_deudas.add(cb_id_deuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 100, 90, 25));
+        panel_deudas.add(cb_id_deuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 100, 90, 25));
 
         cb_producto.setBackground(new java.awt.Color(255, 255, 255));
         cb_producto.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
@@ -470,13 +471,19 @@ public class Dashboard extends javax.swing.JFrame {
         label_id.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
         label_id.setForeground(new java.awt.Color(0, 0, 0));
         label_id.setText("Id:");
-        panel_deudas.add(label_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 30, 25));
+        panel_deudas.add(label_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 30, 25));
 
         cb_cantidad_deuda.setBackground(new java.awt.Color(255, 255, 255));
         cb_cantidad_deuda.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
         cb_cantidad_deuda.setForeground(new java.awt.Color(0, 0, 0));
         cb_cantidad_deuda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
         panel_deudas.add(cb_cantidad_deuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 60, 120, 25));
+
+        btn_generar_cvs.setBackground(new java.awt.Color(204, 102, 255));
+        btn_generar_cvs.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
+        btn_generar_cvs.setForeground(new java.awt.Color(0, 0, 0));
+        btn_generar_cvs.setText("Csv");
+        panel_deudas.add(btn_generar_cvs, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, 120, 25));
 
         btn_generar_deuda.setBackground(new java.awt.Color(204, 102, 255));
         btn_generar_deuda.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
@@ -488,7 +495,7 @@ public class Dashboard extends javax.swing.JFrame {
         btn_eliminar_deuda.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
         btn_eliminar_deuda.setForeground(new java.awt.Color(0, 0, 0));
         btn_eliminar_deuda.setText("Eliminar");
-        panel_deudas.add(btn_eliminar_deuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, 120, 25));
+        panel_deudas.add(btn_eliminar_deuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 120, 25));
 
         jScrollPane3.setBackground(new java.awt.Color(71, 71, 71));
         jScrollPane3.setForeground(new java.awt.Color(255, 255, 255));
@@ -727,6 +734,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton btn_eliminar_cliente;
     private javax.swing.JButton btn_eliminar_deuda;
     private javax.swing.JButton btn_eliminar_producto;
+    private javax.swing.JButton btn_generar_cvs;
     private javax.swing.JButton btn_generar_deuda;
     private javax.swing.JPanel btn_productos;
     private javax.swing.JButton btn_registra_abono;
@@ -1028,4 +1036,13 @@ public class Dashboard extends javax.swing.JFrame {
     public void setBtn_eliminar_abono(JButton btn_eliminar_abono) {
         this.btn_eliminar_abono = btn_eliminar_abono;
     }
+
+    public javax.swing.JButton getBtn_generar_cvs() {
+        return btn_generar_cvs;
+    }
+
+    public void setBtn_generar_cvs(javax.swing.JButton btn_generar_cvs) {
+        this.btn_generar_cvs = btn_generar_cvs;
+    }
+
 }
