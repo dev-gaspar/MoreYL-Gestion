@@ -1,21 +1,56 @@
 package vistas;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.Shape;
+import java.awt.geom.RoundRectangle2D;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class Vista extends javax.swing.JFrame {
+public class Dashboard extends javax.swing.JFrame {
 
-    public Vista() {
+    int xMouse, yMouse;
+
+    public Dashboard() {
         initComponents();
+
+        Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 30, 30);
+        this.setShape(forma);
+
+        Image icon = new ImageIcon(getClass().getResource("/images/favicon.png")).getImage();
+        setIconImage(icon);
+
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bg = new javax.swing.JPanel();
+        barra = new javax.swing.JPanel();
+        jLabel_sistema = new javax.swing.JLabel();
+        jLabel_sistema1 = new javax.swing.JLabel();
+        btn_ver_cerrar = new javax.swing.JButton();
+        nav = new javax.swing.JPanel();
+        btn_clientes = new javax.swing.JPanel();
+        jLabelPrincipal = new javax.swing.JLabel();
+        jLabelCasa = new javax.swing.JLabel();
+        btn_productos = new javax.swing.JPanel();
+        jLabelRegistro = new javax.swing.JLabel();
+        jLabelIconRegistro = new javax.swing.JLabel();
+        btn_deudas = new javax.swing.JPanel();
+        jLabelMaterias = new javax.swing.JLabel();
+        jLabelIconOperaciones = new javax.swing.JLabel();
+        btn_abonos = new javax.swing.JPanel();
+        jLabelNotas = new javax.swing.JLabel();
+        jLabelIconMovimientos = new javax.swing.JLabel();
+        logo = new javax.swing.JLabel();
+        content = new javax.swing.JPanel();
         tp_pestañas = new javax.swing.JTabbedPane();
         panel_clientes = new javax.swing.JPanel();
         label_clientes = new javax.swing.JLabel();
@@ -59,7 +94,6 @@ public class Vista extends javax.swing.JFrame {
         label_cantidad2 = new javax.swing.JLabel();
         panel_abonos = new javax.swing.JPanel();
         label_id_deuda = new javax.swing.JLabel();
-        btn_ver_cerrar = new javax.swing.JButton();
         cb_id_deuda_abono = new javax.swing.JComboBox<>();
         label_precio1 = new javax.swing.JLabel();
         txt_abono = new javax.swing.JTextField();
@@ -71,11 +105,158 @@ public class Vista extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        bg.setBackground(new java.awt.Color(255, 255, 255));
+        bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        barra.setBackground(new java.awt.Color(255, 255, 255));
+        barra.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                barraMouseDragged(evt);
+            }
+        });
+        barra.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                barraMousePressed(evt);
+            }
+        });
+        barra.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel_sistema.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
+        jLabel_sistema.setForeground(new java.awt.Color(204, 102, 255));
+        jLabel_sistema.setText("MoreYL");
+        barra.add(jLabel_sistema, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 0, 70, 30));
+
+        jLabel_sistema1.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
+        jLabel_sistema1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel_sistema1.setText("System Gestion/");
+        barra.add(jLabel_sistema1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 180, 30));
+
+        btn_ver_cerrar.setBackground(new java.awt.Color(255, 255, 255));
+        btn_ver_cerrar.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
+        btn_ver_cerrar.setForeground(new java.awt.Color(204, 102, 255));
+        btn_ver_cerrar.setText("X");
+        btn_ver_cerrar.setBorder(null);
+        barra.add(btn_ver_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(795, 8, 40, 30));
+
+        bg.add(barra, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 30));
+
+        nav.setBackground(new java.awt.Color(255, 255, 255));
+        nav.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btn_clientes.setBackground(new java.awt.Color(204, 102, 255));
+        btn_clientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_clientesMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_clientesMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_clientesMousePressed(evt);
+            }
+        });
+        btn_clientes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelPrincipal.setBackground(new java.awt.Color(40, 38, 34));
+        jLabelPrincipal.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
+        jLabelPrincipal.setForeground(new java.awt.Color(0, 0, 0));
+        jLabelPrincipal.setText("Clientes");
+        btn_clientes.add(jLabelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 110, 50));
+
+        jLabelCasa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_registro.png"))); // NOI18N
+        btn_clientes.add(jLabelCasa, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 50, 50));
+
+        nav.add(btn_clientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 190, 50));
+
+        btn_productos.setBackground(new java.awt.Color(247, 247, 247));
+        btn_productos.setForeground(new java.awt.Color(40, 38, 34));
+        btn_productos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_productosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_productosMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_productosMousePressed(evt);
+            }
+        });
+        btn_productos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelRegistro.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
+        jLabelRegistro.setForeground(new java.awt.Color(0, 0, 0));
+        jLabelRegistro.setText("Productos");
+        btn_productos.add(jLabelRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 110, 50));
+
+        jLabelIconRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_notas.png"))); // NOI18N
+        btn_productos.add(jLabelIconRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 50, 50));
+
+        nav.add(btn_productos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 190, 50));
+
+        btn_deudas.setBackground(new java.awt.Color(247, 247, 247));
+        btn_deudas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_deudasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_deudasMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_deudasMousePressed(evt);
+            }
+        });
+        btn_deudas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelMaterias.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
+        jLabelMaterias.setForeground(new java.awt.Color(0, 0, 0));
+        jLabelMaterias.setText("Deudas");
+        btn_deudas.add(jLabelMaterias, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 110, 50));
+
+        jLabelIconOperaciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_materias.png"))); // NOI18N
+        btn_deudas.add(jLabelIconOperaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 50, 50));
+
+        nav.add(btn_deudas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 190, 50));
+
+        btn_abonos.setBackground(new java.awt.Color(247, 247, 247));
+        btn_abonos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_abonosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_abonosMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_abonosMousePressed(evt);
+            }
+        });
+        btn_abonos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelNotas.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
+        jLabelNotas.setForeground(new java.awt.Color(0, 0, 0));
+        jLabelNotas.setText("Abonos");
+        btn_abonos.add(jLabelNotas, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 110, 50));
+
+        jLabelIconMovimientos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_materias.png"))); // NOI18N
+        btn_abonos.add(jLabelIconMovimientos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 50, 50));
+
+        nav.add(btn_abonos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 190, 50));
+
+        logo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
+        nav.add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 150, 150));
+
+        bg.add(nav, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 500));
+
+        content.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tp_pestañas.setBackground(new java.awt.Color(255, 255, 255));
         tp_pestañas.setForeground(new java.awt.Color(0, 0, 0));
+        tp_pestañas.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
 
-        panel_clientes.setBackground(new java.awt.Color(255, 255, 255));
+        panel_clientes.setBackground(new java.awt.Color(247, 247, 247));
         panel_clientes.setForeground(new java.awt.Color(255, 255, 255));
         panel_clientes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -107,15 +288,15 @@ public class Vista extends javax.swing.JFrame {
         txt_telefono.setForeground(new java.awt.Color(0, 0, 0));
         panel_clientes.add(txt_telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 120, 25));
 
-        btn_eliminar_cliente.setBackground(new java.awt.Color(0, 0, 0));
+        btn_eliminar_cliente.setBackground(new java.awt.Color(204, 102, 255));
         btn_eliminar_cliente.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
-        btn_eliminar_cliente.setForeground(new java.awt.Color(255, 255, 255));
+        btn_eliminar_cliente.setForeground(new java.awt.Color(0, 0, 0));
         btn_eliminar_cliente.setText("Eliminar");
         panel_clientes.add(btn_eliminar_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, 120, 25));
 
-        btn_registrar_cliente.setBackground(new java.awt.Color(0, 0, 0));
+        btn_registrar_cliente.setBackground(new java.awt.Color(204, 102, 255));
         btn_registrar_cliente.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
-        btn_registrar_cliente.setForeground(new java.awt.Color(255, 255, 255));
+        btn_registrar_cliente.setForeground(new java.awt.Color(0, 0, 0));
         btn_registrar_cliente.setText("Registrar");
         panel_clientes.add(btn_registrar_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 60, 120, 25));
 
@@ -148,9 +329,6 @@ public class Vista extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tabla_clientes);
-        if (tabla_clientes.getColumnModel().getColumnCount() > 0) {
-            tabla_clientes.getColumnModel().getColumn(2).setHeaderValue("Telefono");
-        }
 
         panel_clientes.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 560, 300));
 
@@ -162,7 +340,7 @@ public class Vista extends javax.swing.JFrame {
 
         tp_pestañas.addTab("Clientes", panel_clientes);
 
-        panel_productos.setBackground(new java.awt.Color(255, 255, 255));
+        panel_productos.setBackground(new java.awt.Color(247, 247, 247));
         panel_productos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         label_credito.setBackground(new java.awt.Color(255, 255, 255));
@@ -210,15 +388,15 @@ public class Vista extends javax.swing.JFrame {
         txt_precio.setForeground(new java.awt.Color(0, 0, 0));
         panel_productos.add(txt_precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 120, 25));
 
-        btn_eliminar_producto.setBackground(new java.awt.Color(0, 0, 0));
+        btn_eliminar_producto.setBackground(new java.awt.Color(204, 102, 255));
         btn_eliminar_producto.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
-        btn_eliminar_producto.setForeground(new java.awt.Color(255, 255, 255));
+        btn_eliminar_producto.setForeground(new java.awt.Color(0, 0, 0));
         btn_eliminar_producto.setText("Eliminar");
         panel_productos.add(btn_eliminar_producto, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 100, 120, 25));
 
-        btn_registrar_producto.setBackground(new java.awt.Color(0, 0, 0));
+        btn_registrar_producto.setBackground(new java.awt.Color(204, 102, 255));
         btn_registrar_producto.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
-        btn_registrar_producto.setForeground(new java.awt.Color(255, 255, 255));
+        btn_registrar_producto.setForeground(new java.awt.Color(0, 0, 0));
         btn_registrar_producto.setText("Registrar");
         panel_productos.add(btn_registrar_producto, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 120, 25));
 
@@ -251,15 +429,12 @@ public class Vista extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tabla_productos);
-        if (tabla_productos.getColumnModel().getColumnCount() > 0) {
-            tabla_productos.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         panel_productos.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 560, 300));
 
         tp_pestañas.addTab("Productos", panel_productos);
 
-        panel_deudas.setBackground(new java.awt.Color(255, 255, 255));
+        panel_deudas.setBackground(new java.awt.Color(247, 247, 247));
         panel_deudas.setForeground(new java.awt.Color(255, 255, 255));
         panel_deudas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -302,15 +477,15 @@ public class Vista extends javax.swing.JFrame {
         cb_cantidad_deuda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
         panel_deudas.add(cb_cantidad_deuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 60, 120, 25));
 
-        btn_generar_deuda.setBackground(new java.awt.Color(0, 0, 0));
+        btn_generar_deuda.setBackground(new java.awt.Color(204, 102, 255));
         btn_generar_deuda.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
-        btn_generar_deuda.setForeground(new java.awt.Color(255, 255, 255));
+        btn_generar_deuda.setForeground(new java.awt.Color(0, 0, 0));
         btn_generar_deuda.setText("Generar");
         panel_deudas.add(btn_generar_deuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 60, 120, 25));
 
-        btn_eliminar_deuda.setBackground(new java.awt.Color(0, 0, 0));
+        btn_eliminar_deuda.setBackground(new java.awt.Color(204, 102, 255));
         btn_eliminar_deuda.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
-        btn_eliminar_deuda.setForeground(new java.awt.Color(255, 255, 255));
+        btn_eliminar_deuda.setForeground(new java.awt.Color(0, 0, 0));
         btn_eliminar_deuda.setText("Eliminar");
         panel_deudas.add(btn_eliminar_deuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, 120, 25));
 
@@ -337,10 +512,6 @@ public class Vista extends javax.swing.JFrame {
             }
         });
         jScrollPane3.setViewportView(tabla_dudas);
-        if (tabla_dudas.getColumnModel().getColumnCount() > 0) {
-            tabla_dudas.getColumnModel().getColumn(2).setHeaderValue("Telefono");
-            tabla_dudas.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         panel_deudas.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 560, 300));
 
@@ -358,7 +529,7 @@ public class Vista extends javax.swing.JFrame {
 
         tp_pestañas.addTab("Deudas", panel_deudas);
 
-        panel_abonos.setBackground(new java.awt.Color(255, 255, 255));
+        panel_abonos.setBackground(new java.awt.Color(247, 247, 247));
         panel_abonos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         label_id_deuda.setBackground(new java.awt.Color(255, 255, 255));
@@ -366,12 +537,6 @@ public class Vista extends javax.swing.JFrame {
         label_id_deuda.setForeground(new java.awt.Color(0, 0, 0));
         label_id_deuda.setText("Id deuda:");
         panel_abonos.add(label_id_deuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 70, 25));
-
-        btn_ver_cerrar.setBackground(new java.awt.Color(0, 0, 0));
-        btn_ver_cerrar.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
-        btn_ver_cerrar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_ver_cerrar.setText("Cerrar");
-        panel_abonos.add(btn_ver_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 10, 80, 25));
 
         cb_id_deuda_abono.setBackground(new java.awt.Color(255, 255, 255));
         cb_id_deuda_abono.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
@@ -389,15 +554,15 @@ public class Vista extends javax.swing.JFrame {
         txt_abono.setForeground(new java.awt.Color(0, 0, 0));
         panel_abonos.add(txt_abono, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 120, 25));
 
-        btn_ver_abonos.setBackground(new java.awt.Color(0, 0, 0));
+        btn_ver_abonos.setBackground(new java.awt.Color(204, 102, 255));
         btn_ver_abonos.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
-        btn_ver_abonos.setForeground(new java.awt.Color(255, 255, 255));
+        btn_ver_abonos.setForeground(new java.awt.Color(0, 0, 0));
         btn_ver_abonos.setText("Ver");
         panel_abonos.add(btn_ver_abonos, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 60, 120, 25));
 
-        btn_registra_abono.setBackground(new java.awt.Color(0, 0, 0));
+        btn_registra_abono.setBackground(new java.awt.Color(204, 102, 255));
         btn_registra_abono.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
-        btn_registra_abono.setForeground(new java.awt.Color(255, 255, 255));
+        btn_registra_abono.setForeground(new java.awt.Color(0, 0, 0));
         btn_registra_abono.setText("Registrar");
         panel_abonos.add(btn_registra_abono, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 120, 25));
 
@@ -435,25 +600,127 @@ public class Vista extends javax.swing.JFrame {
 
         tp_pestañas.addTab("Abonos", panel_abonos);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tp_pestañas, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tp_pestañas, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
-        );
+        content.add(tp_pestañas, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -30, 670, 510));
+
+        bg.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, 650, 470));
+
+        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void barraMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barraMouseDragged
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        this.setLocation(x - xMouse, y - yMouse);
+    }//GEN-LAST:event_barraMouseDragged
+
+    private void barraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barraMousePressed
+        xMouse = evt.getX();
+        yMouse = evt.getY();
+    }//GEN-LAST:event_barraMousePressed
+
+    private void btn_clientesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_clientesMouseEntered
+        if (btn_clientes.getBackground().getRGB() == -526345) {
+            hoverMouse(btn_clientes);
+        }
+    }//GEN-LAST:event_btn_clientesMouseEntered
+
+    private void btn_clientesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_clientesMouseExited
+        if (btn_productos.getBackground().getRGB() != -526345
+                || btn_deudas.getBackground().getRGB() != -526345 || btn_abonos.getBackground().getRGB() != -526345) {
+            resetColor(btn_clientes);
+        }
+    }//GEN-LAST:event_btn_clientesMouseExited
+
+    private void btn_clientesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_clientesMousePressed
+        setColor(btn_clientes);
+        resetColor(btn_productos);
+        resetColor(btn_deudas);
+        resetColor(btn_abonos);
+        tp_pestañas.setSelectedIndex(0);
+    }//GEN-LAST:event_btn_clientesMousePressed
+
+    private void btn_productosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_productosMouseEntered
+
+        if (btn_productos.getBackground().getRGB() == -526345) {
+            hoverMouse(btn_productos);
+        }
+    }//GEN-LAST:event_btn_productosMouseEntered
+
+    private void btn_productosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_productosMouseExited
+        if (btn_clientes.getBackground().getRGB() != -526345
+                || btn_deudas.getBackground().getRGB() != -526345 || btn_abonos.getBackground().getRGB() != -526345) {
+            resetColor(btn_productos);
+        }
+    }//GEN-LAST:event_btn_productosMouseExited
+
+    private void btn_productosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_productosMousePressed
+        resetColor(btn_clientes);
+        setColor(btn_productos);
+        resetColor(btn_deudas);
+        resetColor(btn_abonos);
+        tp_pestañas.setSelectedIndex(1);
+
+    }//GEN-LAST:event_btn_productosMousePressed
+
+    private void btn_deudasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_deudasMouseEntered
+        if (btn_deudas.getBackground().getRGB() == -526345) {
+            hoverMouse(btn_deudas);
+        }
+    }//GEN-LAST:event_btn_deudasMouseEntered
+
+    private void btn_deudasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_deudasMouseExited
+        if (btn_clientes.getBackground().getRGB() != -526345
+                || btn_productos.getBackground().getRGB() != -526345 || btn_abonos.getBackground().getRGB() != -526345) {
+            resetColor(btn_deudas);
+        }
+    }//GEN-LAST:event_btn_deudasMouseExited
+
+    private void btn_deudasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_deudasMousePressed
+
+        resetColor(btn_clientes);
+        resetColor(btn_productos);
+        setColor(btn_deudas);
+        resetColor(btn_abonos);
+
+        tp_pestañas.setSelectedIndex(2);
+
+    }//GEN-LAST:event_btn_deudasMousePressed
+
+    private void btn_abonosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_abonosMouseEntered
+        if (btn_abonos.getBackground().getRGB() == -526345) {
+            hoverMouse(btn_abonos);
+        }
+    }//GEN-LAST:event_btn_abonosMouseEntered
+
+    private void btn_abonosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_abonosMouseExited
+
+        if (btn_clientes.getBackground().getRGB() != -526345
+                || btn_productos.getBackground().getRGB() != -526345 || btn_deudas.getBackground().getRGB() != -526345) {
+            resetColor(btn_abonos);
+        }
+    }//GEN-LAST:event_btn_abonosMouseExited
+
+    private void btn_abonosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_abonosMousePressed
+        resetColor(btn_clientes);
+        resetColor(btn_productos);
+        resetColor(btn_deudas);
+        setColor(btn_abonos);
+        tp_pestañas.setSelectedIndex(3);
+    }//GEN-LAST:event_btn_abonosMousePressed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel barra;
+    private javax.swing.JPanel bg;
+    private javax.swing.JPanel btn_abonos;
+    private javax.swing.JPanel btn_clientes;
+    private javax.swing.JPanel btn_deudas;
     private javax.swing.JButton btn_eliminar_cliente;
     private javax.swing.JButton btn_eliminar_deuda;
     private javax.swing.JButton btn_eliminar_producto;
     private javax.swing.JButton btn_generar_deuda;
+    private javax.swing.JPanel btn_productos;
     private javax.swing.JButton btn_registra_abono;
     private javax.swing.JButton btn_registrar_cliente;
     private javax.swing.JButton btn_registrar_producto;
@@ -466,6 +733,17 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cb_id_deuda;
     private javax.swing.JComboBox<String> cb_id_deuda_abono;
     private javax.swing.JComboBox<String> cb_producto;
+    private javax.swing.JPanel content;
+    private javax.swing.JLabel jLabelCasa;
+    private javax.swing.JLabel jLabelIconMovimientos;
+    private javax.swing.JLabel jLabelIconOperaciones;
+    private javax.swing.JLabel jLabelIconRegistro;
+    private javax.swing.JLabel jLabelMaterias;
+    private javax.swing.JLabel jLabelNotas;
+    private javax.swing.JLabel jLabelPrincipal;
+    private javax.swing.JLabel jLabelRegistro;
+    private javax.swing.JLabel jLabel_sistema;
+    private javax.swing.JLabel jLabel_sistema1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -487,6 +765,8 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JLabel label_producto;
     private javax.swing.JLabel label_producto1;
     private javax.swing.JLabel label_telefono;
+    private javax.swing.JLabel logo;
+    private javax.swing.JPanel nav;
     private javax.swing.JPanel panel_abonos;
     private javax.swing.JPanel panel_clientes;
     private javax.swing.JPanel panel_deudas;
@@ -504,6 +784,19 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JTextField txt_telefono;
     // End of variables declaration//GEN-END:variables
 
+    void setColor(JPanel panel) {
+        panel.setBackground(new Color(204, 102, 255));
+    }
+
+    void resetColor(JPanel panel) {
+        panel.setBackground(new Color(247, 247, 247));
+    }
+
+    void hoverMouse(JPanel panel) {
+        panel.setBackground(new Color(224, 224, 224));
+    }
+
+    //SETTER AND GETTER
     public JButton getBtn_eliminar_cliente() {
         return btn_eliminar_cliente;
     }
@@ -719,7 +1012,4 @@ public class Vista extends javax.swing.JFrame {
     public void setBtn_ver_cerrar(JButton btn_ver_cerrar) {
         this.btn_ver_cerrar = btn_ver_cerrar;
     }
-    
-    
-
 }

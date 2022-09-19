@@ -15,7 +15,7 @@ public class BD implements Serializable {
     int contador_deudas;
 
     public BD() {
-        contador_deudas = 0;
+        contador_deudas = 1;
 
         clientes = new ArrayList<>();
         productos = new ArrayList<>();

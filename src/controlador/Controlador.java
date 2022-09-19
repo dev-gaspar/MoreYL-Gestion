@@ -18,16 +18,16 @@ import modelos.Abono;
 import modelos.Cliente;
 import modelos.Deuda;
 import modelos.Producto;
-import vistas.Vista;
+import vistas.Dashboard;
 
 public class Controlador implements ActionListener {
 
-    Vista vista;
+    Dashboard vista;
     BD bd;
 
     public Controlador() {
 
-        vista = new Vista();
+        vista = new Dashboard();
         bd = new BD();
 
         vista.getBtn_registrar_cliente().addActionListener(this);
@@ -49,7 +49,7 @@ public class Controlador implements ActionListener {
     public void iniciar() {
         recuperarArchivo();
         vista.setTitle("More yl - Gestion");
-        vista.setSize(660, 560);
+        vista.setSize(840, 500);
         vista.setLocationRelativeTo(null);
         vista.setVisible(true);
 
