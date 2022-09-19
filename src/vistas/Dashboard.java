@@ -97,6 +97,7 @@ public class Dashboard extends javax.swing.JFrame {
         cb_id_deuda_abono = new javax.swing.JComboBox<>();
         label_precio1 = new javax.swing.JLabel();
         txt_abono = new javax.swing.JTextField();
+        btn_eliminar_abono = new javax.swing.JButton();
         btn_ver_abonos = new javax.swing.JButton();
         btn_registra_abono = new javax.swing.JButton();
         label_abonos = new javax.swing.JLabel();
@@ -554,17 +555,23 @@ public class Dashboard extends javax.swing.JFrame {
         txt_abono.setForeground(new java.awt.Color(0, 0, 0));
         panel_abonos.add(txt_abono, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 120, 25));
 
+        btn_eliminar_abono.setBackground(new java.awt.Color(204, 102, 255));
+        btn_eliminar_abono.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
+        btn_eliminar_abono.setForeground(new java.awt.Color(0, 0, 0));
+        btn_eliminar_abono.setText("Eliminar");
+        panel_abonos.add(btn_eliminar_abono, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 60, 90, 25));
+
         btn_ver_abonos.setBackground(new java.awt.Color(204, 102, 255));
         btn_ver_abonos.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
         btn_ver_abonos.setForeground(new java.awt.Color(0, 0, 0));
         btn_ver_abonos.setText("Ver");
-        panel_abonos.add(btn_ver_abonos, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 60, 120, 25));
+        panel_abonos.add(btn_ver_abonos, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 60, 80, 25));
 
         btn_registra_abono.setBackground(new java.awt.Color(204, 102, 255));
         btn_registra_abono.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
         btn_registra_abono.setForeground(new java.awt.Color(0, 0, 0));
         btn_registra_abono.setText("Registrar");
-        panel_abonos.add(btn_registra_abono, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 120, 25));
+        panel_abonos.add(btn_registra_abono, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 80, 25));
 
         label_abonos.setBackground(new java.awt.Color(255, 255, 255));
         label_abonos.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
@@ -716,6 +723,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel btn_abonos;
     private javax.swing.JPanel btn_clientes;
     private javax.swing.JPanel btn_deudas;
+    private javax.swing.JButton btn_eliminar_abono;
     private javax.swing.JButton btn_eliminar_cliente;
     private javax.swing.JButton btn_eliminar_deuda;
     private javax.swing.JButton btn_eliminar_producto;
@@ -1011,5 +1019,13 @@ public class Dashboard extends javax.swing.JFrame {
 
     public void setBtn_ver_cerrar(JButton btn_ver_cerrar) {
         this.btn_ver_cerrar = btn_ver_cerrar;
+    }
+
+    public JButton getBtn_eliminar_abono() {
+        return btn_eliminar_abono;
+    }
+
+    public void setBtn_eliminar_abono(JButton btn_eliminar_abono) {
+        this.btn_eliminar_abono = btn_eliminar_abono;
     }
 }

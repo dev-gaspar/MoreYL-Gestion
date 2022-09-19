@@ -41,6 +41,7 @@ public class Controlador implements ActionListener {
 
         vista.getBtn_registra_abono().addActionListener(this);
         vista.getBtn_ver_abonos().addActionListener(this);
+        vista.getBtn_eliminar_abono().addActionListener(this);
 
         vista.getBtn_ver_cerrar().addActionListener(this);
 
@@ -112,6 +113,13 @@ public class Controlador implements ActionListener {
         }
 
         if (e.getSource() == vista.getBtn_ver_abonos()) {
+            verAbonos();
+        }
+
+        if (e.getSource() == vista.getBtn_eliminar_abono()) {
+            eliminarAbono();
+            listarDeudas();
+            listarProductos();
             verAbonos();
         }
 
@@ -297,7 +305,34 @@ public class Controlador implements ActionListener {
         } catch (NumberFormatException e) {
             mensaje("Ha ocurrido un error al generar el abono");
         }
+    }
 
+    public void eliminarAbono() {
+
+        try {
+            int id = Integer.parseInt(vista.getCb_id_deuda_abono().getSelectedItem().toString());
+            double abono = Double.parseDouble(vista.getTxt_abono().getText());
+
+            Deuda deuda = bd.buscarDeuda(id);
+            int posDeuda = bd.posDeuda(id);
+
+            bd.actualizarGanacia(deuda.getProducto(), -(abono));
+
+            bd.actualizarDeuda(deuda);
+
+            double deudaActualizada = bd.getDeudas().get(posDeuda).getDeuda() - abono;
+            bd.getDeudas().get(posDeuda).setDeuda(deudaActualizada);
+
+            boolean respuesta = bd.eliminarAbono(id, abono);
+
+            if (respuesta) {
+                mensaje("Abono eliminado correctamente");
+            } else {
+                mensaje("Error el eliminar abono");
+            }
+        } catch (NumberFormatException e) {
+            mensaje("Verifique los campos, ha ocurrido algun error");
+        }
     }
 
     public void verAbonos() {

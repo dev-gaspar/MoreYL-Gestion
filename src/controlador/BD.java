@@ -23,20 +23,10 @@ public class BD implements Serializable {
 
     }
 
+    /*Acciones de clientes*/
     public void guardarCliente(Cliente cliente) {
         clientes.add(cliente);
         System.out.println("Cliente guardado");
-    }
-
-    public void guardarProducto(Producto producto) {
-        productos.add(producto);
-        System.out.println("Producto guardado");
-    }
-
-    public void guardarDeuda(Deuda deuda) {
-        deudas.add(deuda);
-        contador_deudas++;
-        System.out.println("Deuda guardada");
     }
 
     public Cliente buscarCliente(String nombre) {
@@ -63,6 +53,18 @@ public class BD implements Serializable {
         return false;
     }
 
+    public void guardarProducto(Producto producto) {
+        productos.add(producto);
+        System.out.println("Producto guardado");
+    }
+
+    public void guardarDeuda(Deuda deuda) {
+        deudas.add(deuda);
+        contador_deudas++;
+        System.out.println("Deuda guardada");
+    }
+
+    /*Acciones de productos*/
     public Producto buscarProducto(String nombre) {
         Producto resultado = null;
 
@@ -88,15 +90,6 @@ public class BD implements Serializable {
         return pos;
     }
 
-    public void actualizarGanacia(String nombre, double abono) {
-        int pos = posProducto(nombre);
-
-        Producto producto = productos.get(pos);
-        producto.sumarGanancia(abono);
-        productos.set(pos, producto);
-
-    }
-
     public boolean eliminarProducto(String producto) {
         int i = 0;
         for (Producto p : getProductos()) {
@@ -109,19 +102,16 @@ public class BD implements Serializable {
         return false;
     }
 
-    public int posDeuda(int id) {
-        int pos = -1;
-        int i = 0;
-        for (Deuda d : getDeudas()) {
-            if (d.getId_deuda() == id) {
-                pos = i;
-                break;
-            }
-            i++;
-        }
-        return pos;
+    public void actualizarGanacia(String nombre, double abono) {
+        int pos = posProducto(nombre);
+
+        Producto producto = productos.get(pos);
+        producto.sumarGanancia(abono);
+        productos.set(pos, producto);
+
     }
 
+    /*Acciones para deudas*/
     public Deuda buscarDeuda(int id) {
         Deuda resultado = null;
         for (Deuda d : getDeudas()) {
@@ -137,6 +127,19 @@ public class BD implements Serializable {
         deudas.set(pos, deuda);
     }
 
+    public int posDeuda(int id) {
+        int pos = -1;
+        int i = 0;
+        for (Deuda d : getDeudas()) {
+            if (d.getId_deuda() == id) {
+                pos = i;
+                break;
+            }
+            i++;
+        }
+        return pos;
+    }
+
     public boolean eliminarDeuda(int id) {
         int i = 0;
         for (Deuda d : getDeudas()) {
@@ -149,6 +152,24 @@ public class BD implements Serializable {
         return false;
     }
 
+    /*Acciones para abonos*/
+    public boolean eliminarAbono(int id_deuda, double abono) {
+        for (int i = 0; i < deudas.size(); i++) {
+            if (deudas.get(i).getId_deuda() == id_deuda) {
+                for (int j = 0; j < deudas.get(i).getAbonos().size(); j++) {
+                    if (true) {
+                        if (deudas.get(i).getAbonos().get(j).getAbono() == abono) {
+                            deudas.get(i).getAbonos().remove(j);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /*Setter and Getter*/
     public ArrayList<Cliente> getClientes() {
         return clientes;
     }
