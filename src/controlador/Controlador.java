@@ -41,7 +41,7 @@ public class Controlador implements ActionListener {
 
         vista.getBtn_registra_abono().addActionListener(this);
         vista.getBtn_ver_abonos().addActionListener(this);
-        
+
         vista.getBtn_ver_cerrar().addActionListener(this);
 
     }
@@ -52,11 +52,11 @@ public class Controlador implements ActionListener {
         vista.setSize(660, 560);
         vista.setLocationRelativeTo(null);
         vista.setVisible(true);
-        
+
         listarClientes();
         listarProductos();
         listarDeudas();
-        
+
         llenarComboClientes();
         llenarComboDeudas();
         llenarComboProductos();
@@ -65,6 +65,8 @@ public class Controlador implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        /*Eventos de clientes*/
         if (e.getSource() == vista.getBtn_registrar_cliente()) {
             guardarCliente();
             listarClientes();
@@ -76,6 +78,7 @@ public class Controlador implements ActionListener {
             llenarComboClientes();
         }
 
+        /*Eventos de productos*/
         if (e.getSource() == vista.getBtn_registrar_producto()) {
             guardarProducto();
             listarProductos();
@@ -87,6 +90,7 @@ public class Controlador implements ActionListener {
             llenarComboProductos();
         }
 
+        /*Eventos de deudas*/
         if (e.getSource() == vista.getBtn_generar_deuda()) {
             generarDeuda();
             listarDeudas();
@@ -99,6 +103,7 @@ public class Controlador implements ActionListener {
             llenarComboDeudas();
         }
 
+        /*Eventos de abonos*/
         if (e.getSource() == vista.getBtn_registra_abono()) {
             registrarAbono();
             listarDeudas();
@@ -110,6 +115,7 @@ public class Controlador implements ActionListener {
             verAbonos();
         }
 
+        /*Eventos de cerrar*/
         if (e.getSource() == vista.getBtn_ver_cerrar()) {
             guardarArchivo();
             System.exit(0);
@@ -117,6 +123,7 @@ public class Controlador implements ActionListener {
 
     }
 
+    /*Metodos de clientes*/
     public void guardarCliente() {
         try {
             String nombre = vista.getTxt_nombre().getText().toUpperCase();
@@ -146,16 +153,26 @@ public class Controlador implements ActionListener {
         }
     }
 
-    public void eliminarDeuda() {
-        int id = Integer.parseInt(vista.getCb_id_deuda().getSelectedItem().toString());
-        boolean respuesta = bd.eliminarDeuda(id);
-        if (respuesta) {
-            mensaje("Deuda eliminada orrectamente");
-        } else {
-            mensaje("Error el eliminar deuda");
+    public void listarClientes() {
+        ArrayList<Cliente> clientes = bd.getClientes();
+        ArrayList<Object[]> list = new ArrayList();
+
+        for (Cliente e : clientes) {
+            list.add(new Object[]{
+                e.getNombre(),
+                e.getDireccion(),
+                e.getTelefono()
+            });
         }
+
+        DefaultTableModel tabla_clientes = new DefaultTableModel(list.toArray(new Object[][]{}),
+                new String[]{"Nombre", "Direccion", "Telefono"});
+
+        vista.getTabla_clientes().setModel(tabla_clientes);
+
     }
 
+    /*Metodos de productos*/
     public void guardarProducto() {
         try {
             String producto = vista.getTxt_producto().getText().toUpperCase();
@@ -175,48 +192,6 @@ public class Controlador implements ActionListener {
         }
     }
 
-    public void generarDeuda() {
-        try {
-            String producto = vista.getCb_producto().getSelectedItem().toString();
-            String cliente = vista.getCb_cliente().getSelectedItem().toString();
-            double cantidad = Double.parseDouble(vista.getCb_cantidad_deuda().getSelectedItem().toString());
-            String fecha = fecha();
-
-            double deuda = -(cantidad * bd.buscarProducto(producto).getCredito());
-
-            if (!producto.equals("")) {
-                Deuda nuevaDeuda = new Deuda(bd.contador_deudas, cliente, producto, fecha, deuda);
-                bd.guardarDeuda(nuevaDeuda);
-                mensaje("Deuda generada");
-            } else {
-                mensaje("Por favor veridica los campos");
-            }
-        } catch (NumberFormatException e) {
-            mensaje("Error al generar deuda");
-        }
-    }
-
-    public void registrarAbono() {
-
-        try {
-            Deuda deuda = bd.buscarDeuda(Integer.parseInt(vista.getCb_id_deuda_abono().getSelectedItem().toString()));
-            double abono = Double.parseDouble(vista.getTxt_abono().getText());
-            if (deuda.getDeuda() <= 0 && abono <= ((deuda.getDeuda()) * -1)) {
-
-                deuda.nuevoAbono(abono);
-
-                bd.actualizarGanacia(deuda.getProducto(), abono);
-                bd.actualizarDeuda(deuda);
-            } else {
-                mensaje("El cliente ya esta paz y salvo. o el monto se eccede a lo que debe");
-            }
-
-        } catch (NumberFormatException e) {
-            mensaje("Ha ocurrido un error al generar el abono");
-        }
-
-    }
-
     public void eliminarProducto() {
         String nombre = vista.getTxt_producto().getText().toUpperCase();
         boolean respuesta = bd.eliminarProducto(nombre);
@@ -225,25 +200,6 @@ public class Controlador implements ActionListener {
         } else {
             mensaje("Error el eliminar producto");
         }
-    }
-
-    public void listarClientes() {
-        ArrayList<Cliente> clientes = bd.getClientes();
-        ArrayList<Object[]> list = new ArrayList();
-
-        for (Cliente e : clientes) {
-            list.add(new Object[]{
-                e.getNombre(),
-                e.getDireccion(),
-                e.getTelefono()
-            });
-        }
-
-        DefaultTableModel tabla_clientes = new DefaultTableModel(list.toArray(new Object[][]{}),
-                new String[]{"Nombre", "Direccion", "Telefono"});
-
-        vista.getTabla_clientes().setModel(tabla_clientes);
-
     }
 
     public void listarProductos() {
@@ -269,6 +225,38 @@ public class Controlador implements ActionListener {
 
     }
 
+    /*Metodos de deudas*/
+    public void generarDeuda() {
+        try {
+            String producto = vista.getCb_producto().getSelectedItem().toString();
+            String cliente = vista.getCb_cliente().getSelectedItem().toString();
+            double cantidad = Double.parseDouble(vista.getCb_cantidad_deuda().getSelectedItem().toString());
+            String fecha = fecha();
+
+            double deuda = -(cantidad * bd.buscarProducto(producto).getCredito());
+
+            if (!producto.equals("")) {
+                Deuda nuevaDeuda = new Deuda(bd.contador_deudas, cliente, producto, fecha, deuda);
+                bd.guardarDeuda(nuevaDeuda);
+                mensaje("Deuda generada");
+            } else {
+                mensaje("Por favor veridica los campos");
+            }
+        } catch (NumberFormatException e) {
+            mensaje("Error al generar deuda");
+        }
+    }
+
+    public void eliminarDeuda() {
+        int id = Integer.parseInt(vista.getCb_id_deuda().getSelectedItem().toString());
+        boolean respuesta = bd.eliminarDeuda(id);
+        if (respuesta) {
+            mensaje("Deuda eliminada orrectamente");
+        } else {
+            mensaje("Error el eliminar deuda");
+        }
+    }
+
     public void listarDeudas() {
         ArrayList<Deuda> deudas = bd.getDeudas();
         ArrayList<Object[]> list = new ArrayList();
@@ -287,6 +275,28 @@ public class Controlador implements ActionListener {
                 new String[]{"Id", "Cliente", "Producto", "Fecha", "Deuda"});
 
         vista.getTabla_dudas().setModel(tabla_deudas);
+
+    }
+
+    /*Metodos de abonos*/
+    public void registrarAbono() {
+
+        try {
+            Deuda deuda = bd.buscarDeuda(Integer.parseInt(vista.getCb_id_deuda_abono().getSelectedItem().toString()));
+            double abono = Double.parseDouble(vista.getTxt_abono().getText());
+            if (deuda.getDeuda() <= 0 && abono <= ((deuda.getDeuda()) * -1)) {
+
+                deuda.nuevoAbono(abono);
+
+                bd.actualizarGanacia(deuda.getProducto(), abono);
+                bd.actualizarDeuda(deuda);
+            } else {
+                mensaje("El cliente ya esta paz y salvo. o el monto se eccede a lo que debe");
+            }
+
+        } catch (NumberFormatException e) {
+            mensaje("Ha ocurrido un error al generar el abono");
+        }
 
     }
 
@@ -313,6 +323,7 @@ public class Controlador implements ActionListener {
 
     }
 
+    /*Metodos de llenar combobox*/
     public void llenarComboClientes() {
         vista.getCb_cliente().removeAllItems();
         for (Cliente c : bd.getClientes()) {
@@ -337,6 +348,7 @@ public class Controlador implements ActionListener {
         }
     }
 
+    //Metodo retorna la fecha de hoy como string
     public String fecha() {
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar calendar = Calendar.getInstance();
