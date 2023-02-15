@@ -8,10 +8,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelos.Abono;
@@ -63,6 +70,19 @@ public class Controlador implements ActionListener {
         llenarComboDeudas();
         llenarComboProductos();
 
+    }
+
+    Connection cn = conectar();
+
+    public Connection conectar() {
+        try {
+            return DriverManager.getConnection(
+                    "jdbc:mysql://us-east.connect.psdb.cloud/more-yl-gestion?sslMode=VERIFY_IDENTITY",
+                    "lq86qotmj10wbp9zrj2k",
+                    "pscale_pw_rd6Ugwk1p5bJVajuNKVisewrplKfP25zgnt1q3jYRPU");
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -223,12 +243,12 @@ public class Controlador implements ActionListener {
         for (Producto p : productos) {
             list.add(new Object[]{
                 p.getProducto(),
-                p.getPrecio(),
+                aMoneda(p.getPrecio()),
                 p.getCantidad(),
-                p.getInvertido(),
-                p.getCredito(),
-                p.getGanacia_estimada(),
-                p.getGanacia_totales()
+                aMoneda(p.getInvertido()),
+                aMoneda(p.getCredito()),
+                aMoneda(p.getGanacia_estimada()),
+                aMoneda(p.getGanacia_totales())
             });
         }
 
@@ -250,9 +270,25 @@ public class Controlador implements ActionListener {
             double deuda = -(cantidad * bd.buscarProducto(producto).getCredito());
 
             if (!producto.equals("")) {
-                Deuda nuevaDeuda = new Deuda(bd.contador.getContador_deudas(), cliente, producto, fecha, deuda);
-                bd.guardarDeuda(nuevaDeuda);
-                mensaje("Deuda generada");
+
+                try {
+                    Deuda nuevaDeuda = new Deuda(bd.contador.getContador_deudas(), cliente, producto, fecha, deuda);
+
+                    PreparedStatement pst = cn.prepareStatement("insert into deudas values(?,?,?,?,?)");
+
+                    pst.setString(1, String.valueOf(bd.contador.getContador_deudas()));
+                    pst.setString(2, cliente);
+                    pst.setString(3, producto);
+                    pst.setString(4, fecha);
+                    pst.setString(5, String.valueOf(deuda));
+                    pst.executeUpdate();
+
+                    bd.guardarDeuda(nuevaDeuda);
+                    mensaje("Deuda generada");
+                } catch (Exception e) {
+                    mensaje("Error al guardar la deuda, verifica tu conexion a internet");
+                }
+
             } else {
                 mensaje("Por favor veridica los campos");
             }
@@ -262,18 +298,34 @@ public class Controlador implements ActionListener {
     }
 
     public void eliminarDeuda() {
-        int id = Integer.parseInt(vista.getCb_id_deuda().getSelectedItem().toString());
-        boolean respuesta = bd.eliminarDeuda(id);
-        if (respuesta) {
-            mensaje("Deuda eliminada orrectamente");
-        } else {
-            mensaje("Error el eliminar deuda");
+        try {
+            int id = Integer.parseInt(vista.getCb_id_deuda().getSelectedItem().toString());
+            boolean respuesta = bd.eliminarDeuda(id);
+
+            PreparedStatement pstmt = cn.prepareStatement("DELETE FROM deudas WHERE id=?");// Establece los valores de los parámetros en la consulta
+
+            pstmt.setInt(1, id);
+
+            // Ejecuta la consulta de actualización
+            pstmt.executeUpdate();
+
+            if (respuesta) {
+                mensaje("Deuda eliminada orrectamente");
+            } else {
+                mensaje("Error el eliminar deuda");
+            }
+        } catch (SQLException e) {
+            mensaje("Error al eliminar la deuda, verifica tu conexion a internet o datos ingresados");
+
         }
+
     }
 
     public void listarDeudas() {
         ArrayList<Deuda> deudas = bd.getDeudas();
         ArrayList<Object[]> list = new ArrayList();
+
+        double total_deudas = 0;
 
         for (Deuda d : deudas) {
             list.add(new Object[]{
@@ -281,14 +333,16 @@ public class Controlador implements ActionListener {
                 d.getCliente(),
                 d.getProducto(),
                 d.getFecha(),
-                d.getDeuda()
+                aMoneda(d.getDeuda())
             });
+            total_deudas += d.getDeuda();
         }
 
         DefaultTableModel tabla_deudas = new DefaultTableModel(list.toArray(new Object[][]{}),
                 new String[]{"Id", "Cliente", "Producto", "Fecha", "Deuda"});
 
         vista.getTabla_dudas().setModel(tabla_deudas);
+        vista.getLabel_total_deudas().setText("Total deudas: " + aMoneda(total_deudas));
 
     }
 
@@ -299,17 +353,33 @@ public class Controlador implements ActionListener {
             Deuda deuda = bd.buscarDeuda(Integer.parseInt(vista.getCb_id_deuda_abono().getSelectedItem().toString()));
             double abono = Double.parseDouble(vista.getTxt_abono().getText());
             if (deuda.getDeuda() <= 0 && abono <= ((deuda.getDeuda()) * -1)) {
-
                 deuda.nuevoAbono(abono);
-
                 bd.actualizarGanacia(deuda.getProducto(), abono);
                 bd.actualizarDeuda(deuda);
+
+                PreparedStatement pstmt = cn.prepareStatement("UPDATE deudas SET deuda=? WHERE id=?");
+                // Establece los valores de los parámetros en la consulta
+                pstmt.setDouble(1, deuda.getDeuda());
+                pstmt.setInt(2, deuda.getId_deuda());
+
+                // Ejecuta la consulta de actualización
+                int filasActualizadas = pstmt.executeUpdate();
+
+                // Verifica si se actualizó al menos una fila
+                if (filasActualizadas == 0) {
+                    System.out.println("No se encontró la deuda con ID " + deuda.getId_deuda());
+                } else {
+                    System.out.println("Se actualizó la deuda con ID " + deuda.getId_deuda());
+                }
+
             } else {
                 mensaje("El cliente ya esta paz y salvo. o el monto se eccede a lo que debe");
             }
 
         } catch (NumberFormatException e) {
             mensaje("Ha ocurrido un error al generar el abono");
+        } catch (SQLException ex) {
+            mensaje("Ha ocurrido un error al generar el abono revisa tu conexion a internet");
         }
     }
 
@@ -327,7 +397,23 @@ public class Controlador implements ActionListener {
             bd.actualizarDeuda(deuda);
 
             double deudaActualizada = bd.getDeudas().get(posDeuda).getDeuda() - abono;
+
             bd.getDeudas().get(posDeuda).setDeuda(deudaActualizada);
+
+            PreparedStatement pstmt = cn.prepareStatement("UPDATE deudas SET deuda=? WHERE id=?");
+            // Establece los valores de los parámetros en la consulta
+            pstmt.setDouble(1, deudaActualizada);
+            pstmt.setInt(2, deuda.getId_deuda());
+
+            // Ejecuta la consulta de actualización
+            int filasActualizadas = pstmt.executeUpdate();
+
+            // Verifica si se actualizó al menos una fila
+            if (filasActualizadas == 0) {
+                System.out.println("No se encontró la deuda con ID " + deuda.getId_deuda());
+            } else {
+                System.out.println("Se actualizó la deuda con ID " + deuda.getId_deuda());
+            }
 
             boolean respuesta = bd.eliminarAbono(id, abono);
 
@@ -338,6 +424,8 @@ public class Controlador implements ActionListener {
             }
         } catch (NumberFormatException e) {
             mensaje("Verifique los campos, ha ocurrido algun error");
+        } catch (SQLException ex) {
+            mensaje("Verifique su conexion a internet, ha ocurrido algun error");
         }
     }
 
@@ -352,7 +440,7 @@ public class Controlador implements ActionListener {
 
         for (Abono d : abonos) {
             list.add(new Object[]{
-                d.getAbono(),
+                aMoneda(d.getAbono()),
                 d.getFecha()
             });
         }
@@ -440,4 +528,9 @@ public class Controlador implements ActionListener {
         }
     }
 
+    public String aMoneda(double cantidad) {
+        cantidad = Math.round((cantidad * 100.0) / 100.0);
+        DecimalFormat f = new DecimalFormat("$ #,###.##");
+        return f.format(cantidad);
+    }
 }
