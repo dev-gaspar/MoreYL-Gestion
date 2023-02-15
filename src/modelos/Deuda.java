@@ -9,7 +9,7 @@ import java.util.Date;
 public class Deuda implements Serializable{
 
     private int id_deuda;
-    private String ciente;
+    private String cliente;
     private String producto;
     private String fecha;
     private double deuda;
@@ -17,7 +17,7 @@ public class Deuda implements Serializable{
 
     public Deuda(int id_deuda, String ciente, String producto, String fecha, double deuda) {
         this.id_deuda = id_deuda;
-        this.ciente = ciente;
+        this.cliente = ciente;
         this.producto = producto;
         this.fecha = fecha;
         this.deuda = deuda;
@@ -34,12 +34,12 @@ public class Deuda implements Serializable{
         this.id_deuda = id_deuda;
     }
 
-    public String getCiente() {
-        return ciente;
+    public String getCliente() {
+        return cliente;
     }
 
-    public void setCiente(String ciente) {
-        this.ciente = ciente;
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
     }
 
     public String getProducto() {

@@ -1,0 +1,123 @@
+/* Agregamos estilos para hacer la tabla responsive en dispositivos móviles */
+@media (max-width: 767px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+body {
+  background-color: #f0f2f5;
+  transition: background-color 0.3s ease;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+  color: #1877f2;
+}
+
+.table thead th {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #1877f2;
+  border: none;
+}
+
+.table tbody td {
+  font-size: 16px;
+  color: #18191a;
+  border: none;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f6f7f9;
+}
+
+.table tbody tr:hover {
+  background-color: #dfe3e6;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #cfd3d6;
+}
+
+/*Dark mode*/
+
+.dark-mode {
+  background-color: #18191a;
+  color: #f0f2f5;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode h1 {
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .table thead th {
+  color: #f0f2f5;
+  background-color: #27292b;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode .table tbody td {
+  color: #f0f2f5;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .table tbody tr:nth-child(even) {
+  background-color: #2d2d2d;
+  transition: background-color 0.3s ease;
+}
+
+.dark-mode .table tbody tr:hover {
+  background-color: #4d4d4d;
+  transition: background-color 0.3s ease;
+}
+
+.dark-mode .table-hover tbody tr:hover {
+  background-color: #6d6d6d;
+  transition: background-color 0.3s ease;
+}
+
+/*boton modo oscuero*/
+#dark-mode-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  width: 40px;
+  height: 20px;
+  cursor: pointer;
+}
+
+#dark-mode-toggle i {
+  font-size: 16px;
+  color: #050505;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s ease;
+}
+
+#dark-mode-toggle i:last-child {
+  left: 22px;
+}
+
+#dark-mode-toggle.dark-mode {
+  background-color: #050505;
+}
+
+#dark-mode-toggle.dark-mode i {
+  color: #f0f2f5;
+  left: 20px;
+}
+
+#dark-mode-toggle.dark-mode i:last-child {
+  left: 2px;
+}
