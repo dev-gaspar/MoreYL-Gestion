@@ -32,6 +32,6 @@ app.get("*", (req, res) =>
 );
 
 // Iniciar el servidor
-app.listen(3000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log("Servidor iniciado en el puerto 3000");
 });
