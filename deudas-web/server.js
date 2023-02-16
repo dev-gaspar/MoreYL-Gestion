@@ -27,11 +27,24 @@ app.get("/deudas", async (req, res) => {
 });
 
 app.use(express.static(path.join(__dirname, "./")));
-app.get("*", (req, res) =>
+
+app.get("/", (req, res) =>
   res.sendFile(path.resolve(__dirname, "./index.html"))
+);
+
+app.get("/reportes", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "./reportes.html"))
+);
+
+app.get("/reportes/barra-deudas-cliente", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "./reportes/barra_deudas_cliente.html"))
+);
+
+app.get("/reportes/barra-deudas-producto", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "./reportes/barra_deudas_producto.html"))
 );
 
 // Iniciar el servidor
 app.listen(process.env.PORT || 5000, () => {
-  console.log("Servidor iniciado en el puerto 3000");
+  console.log("Servidor iniciado en el puerto 5000");
 });
