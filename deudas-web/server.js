@@ -44,6 +44,10 @@ app.get("/reportes/barra-deudas-producto", (req, res) =>
   res.sendFile(path.resolve(__dirname, "./reportes/barra_deudas_producto.html"))
 );
 
+app.get("/reportes/linea-deudas-fecha", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "./reportes/linea_deudas_fecha.html"))
+);
+
 // Iniciar el servidor
 app.listen(process.env.PORT || 5000, () => {
   console.log("Servidor iniciado en el puerto 5000");

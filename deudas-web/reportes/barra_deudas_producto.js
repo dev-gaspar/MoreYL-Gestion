@@ -15,8 +15,6 @@ fetch("/deudas")
 
     resultado = Object.values(resultado);
 
-    console.log(resultado);
-
     var colores = [
       "#FF6384",
       "#36A2EB",
@@ -126,4 +124,26 @@ fetch("/deudas")
       resizeChart();
       myChart.resize();
     });
+
+    function addDeudaToTable(deuda) {
+      if (deuda.deuda !== 0) {
+        const tableBody = document.getElementById("deudas-body");
+        const row = tableBody.insertRow();
+        row.insertCell().innerText = deuda.producto;
+        row.insertCell().innerText = f.format(deuda.deuda);
+      }
+    }
+
+    async function loadDeudas() {
+      resultado.sort((a, b) => a.producto.localeCompare(b.producto));
+      resultado.forEach(addDeudaToTable);
+    }
+
+    const f = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
+    });
+
+    loadDeudas();
   });

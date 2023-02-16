@@ -51,6 +51,19 @@
       <h4 class="text-sm mt-3">Gráfico de barras de deudas por cliente</h4>
 
       <canvas id="grafico-barras"></canvas>
+
+      <h4 class="text-sm mt-3">Tabla de deudas por cliente</h4>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th>Cliente</th>
+              <th>Deuda</th>
+            </tr>
+          </thead>
+          <tbody id="deudas-body"></tbody>
+        </table>
+      </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="barra_deudas_cliente.js"></script>
