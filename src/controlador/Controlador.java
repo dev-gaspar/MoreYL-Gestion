@@ -17,8 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelos.Abono;
@@ -52,6 +50,8 @@ public class Controlador implements ActionListener {
         vista.getBtn_eliminar_abono().addActionListener(this);
 
         vista.getBtn_ver_cerrar().addActionListener(this);
+
+        vista.getBtn_guardar().addActionListener(this);
 
     }
 
@@ -150,11 +150,13 @@ public class Controlador implements ActionListener {
 
         /*Eventos de cerrar*/
         if (e.getSource() == vista.getBtn_ver_cerrar()) {
-            guardarArchivo();
-            bd.guardarContador();
-            System.exit(0);
+            cerrar();
         }
 
+        /*Eventos de guardar*/
+        if (e.getSource() == vista.getBtn_guardar()) {
+            guardar();
+        }
     }
 
     /*Metodos de clientes*/
@@ -286,14 +288,14 @@ public class Controlador implements ActionListener {
                     bd.guardarDeuda(nuevaDeuda);
                     mensaje("Deuda generada");
                 } catch (Exception e) {
-                    mensaje("Error al guardar la deuda, verifica tu conexion a internet");
+                    error("Error al guardar la deuda, verifica tu conexion a internet");
                 }
 
             } else {
-                mensaje("Por favor veridica los campos");
+                error("Por favor verificar los campos");
             }
         } catch (NumberFormatException e) {
-            mensaje("Error al generar deuda");
+            error("Error al generar deuda");
         }
     }
 
@@ -312,10 +314,10 @@ public class Controlador implements ActionListener {
             if (respuesta) {
                 mensaje("Deuda eliminada orrectamente");
             } else {
-                mensaje("Error el eliminar deuda");
+                error("Error el eliminar deuda");
             }
         } catch (SQLException e) {
-            mensaje("Error al eliminar la deuda, verifica tu conexion a internet o datos ingresados");
+            error("Error al eliminar la deuda, verifica tu conexion a internet o datos ingresados");
 
         }
 
@@ -377,9 +379,9 @@ public class Controlador implements ActionListener {
             }
 
         } catch (NumberFormatException e) {
-            mensaje("Ha ocurrido un error al generar el abono");
+            error("Ha ocurrido un error al generar el abono");
         } catch (SQLException ex) {
-            mensaje("Ha ocurrido un error al generar el abono revisa tu conexion a internet");
+            error("Ha ocurrido un error al generar el abono revisa tu conexion a internet");
         }
     }
 
@@ -420,12 +422,12 @@ public class Controlador implements ActionListener {
             if (respuesta) {
                 mensaje("Abono eliminado correctamente");
             } else {
-                mensaje("Error el eliminar abono");
+                error("Error el eliminar abono");
             }
         } catch (NumberFormatException e) {
-            mensaje("Verifique los campos, ha ocurrido algun error");
+            error("Verifique los campos, ha ocurrido algun error");
         } catch (SQLException ex) {
-            mensaje("Verifique su conexion a internet, ha ocurrido algun error");
+            error("Verifique su conexion a internet, ha ocurrido algun error");
         }
     }
 
@@ -491,6 +493,10 @@ public class Controlador implements ActionListener {
         JOptionPane.showMessageDialog(vista, msg);
     }
 
+    public void error(String msg) {
+        JOptionPane.showMessageDialog(vista, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
     //Archivos DAT
     public void guardarArchivo() {
         try {
@@ -501,9 +507,11 @@ public class Controlador implements ActionListener {
             archivo.close();
 
         } catch (FileNotFoundException e) {
+            error("No se puede crear o encontrar el archivo");
             System.out.println("No se puede crear o encontrar el archivo");
             e.printStackTrace();
         } catch (IOException e) {
+            error("Hubo un error en el sistema");
             System.out.println("Hubo un error en el sistema");
             e.printStackTrace();
         }
@@ -517,12 +525,15 @@ public class Controlador implements ActionListener {
             entrada.close();
             archivo.close();
         } catch (FileNotFoundException e) {
+            error("No se puede crear o encontrar el archivo de base de datos");
             System.out.println("No se puede crear o encontrar el archivo");
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            error("No se encontro o no existen clases serializadas");
             System.out.println("No se encontro o no existen clases serializadas");
             e.printStackTrace();
         } catch (IOException e) {
+            error("Hubo un error en el sistema");
             System.out.println("Hubo un error en el sistema");
             e.printStackTrace();
         }
@@ -532,5 +543,24 @@ public class Controlador implements ActionListener {
         cantidad = Math.round((cantidad * 100.0) / 100.0);
         DecimalFormat f = new DecimalFormat("$ #,###.##");
         return f.format(cantidad);
+    }
+
+    private void cerrar() {
+        try {
+            guardarArchivo();
+            bd.guardarContador();
+            System.exit(0);
+        } catch (Exception e) {
+            error("Error en el sistema");
+        }
+    }
+
+    private void guardar() {
+        try {
+            guardarArchivo();
+            bd.guardarContador();
+        } catch (Exception e) {
+            error("Error al guardar");
+        }
     }
 }

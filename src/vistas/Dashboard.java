@@ -50,6 +50,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLabelNotas = new javax.swing.JLabel();
         jLabelIconMovimientos = new javax.swing.JLabel();
         logo = new javax.swing.JLabel();
+        btn_guardar = new javax.swing.JButton();
         content = new javax.swing.JPanel();
         tp_pestañas = new javax.swing.JTabbedPane();
         panel_clientes = new javax.swing.JPanel();
@@ -244,6 +245,11 @@ public class Dashboard extends javax.swing.JFrame {
         logo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
         nav.add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 150, 150));
+
+        btn_guardar.setBackground(new java.awt.Color(204, 102, 255));
+        btn_guardar.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
+        btn_guardar.setText("Guardar");
+        nav.add(btn_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 140, -1));
 
         bg.add(nav, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 500));
 
@@ -675,6 +681,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton btn_eliminar_producto;
     private javax.swing.JButton btn_generar_cvs;
     private javax.swing.JButton btn_generar_deuda;
+    private javax.swing.JButton btn_guardar;
     private javax.swing.JPanel btn_productos;
     private javax.swing.JButton btn_registra_abono;
     private javax.swing.JButton btn_registrar_cliente;
@@ -992,7 +999,13 @@ public class Dashboard extends javax.swing.JFrame {
     public void setLabel_total_deudas(JLabel label_total_deudas) {
         this.label_total_deudas = label_total_deudas;
     }
-    
-    
+
+    public JButton getBtn_guardar() {
+        return btn_guardar;
+    }
+
+    public void setBtn_guardar(JButton btn_guardar) {
+        this.btn_guardar = btn_guardar;
+    }
 
 }
