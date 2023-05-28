@@ -78,12 +78,12 @@ public class Controlador implements ActionListener {
     public Connection conectar() {
         try {
             Properties props = new Properties();
-            props.setProperty("user", "kiw19ijmqj5uga0ggi5j");
-            props.setProperty("password", "pscale_pw_WUXMeukx6JULnXsbBJmLTcn7me5dfdGqjwGSsLJ2yTe");
+            props.setProperty("user", Global.USER_BD);
+            props.setProperty("password", Global.PASS_BD);
             props.setProperty("useSSL", "true");
 
             return DriverManager.getConnection(
-                    "jdbc:mysql://us-east.connect.psdb.cloud/more-yl-gestion",
+                    Global.HOST_BD,
                     props);
         } catch (Exception e) {
             error("Error al conectar a la base de datos"
