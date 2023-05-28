@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Properties;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelos.Abono;
@@ -76,11 +77,21 @@ public class Controlador implements ActionListener {
 
     public Connection conectar() {
         try {
+            Properties props = new Properties();
+            props.setProperty("user", "kiw19ijmqj5uga0ggi5j");
+            props.setProperty("password", "pscale_pw_WUXMeukx6JULnXsbBJmLTcn7me5dfdGqjwGSsLJ2yTe");
+            props.setProperty("useSSL", "true");
+
             return DriverManager.getConnection(
-                    "jdbc:mysql://us-east.connect.psdb.cloud/more-yl-gestion?sslMode=VERIFY_IDENTITY",
-                    "lq86qotmj10wbp9zrj2k",
-                    "pscale_pw_rd6Ugwk1p5bJVajuNKVisewrplKfP25zgnt1q3jYRPU");
+                    "jdbc:mysql://us-east.connect.psdb.cloud/more-yl-gestion",
+                    props);
         } catch (Exception e) {
+            error("Error al conectar a la base de datos"
+                    + "\nCausas:"
+                    + "\n    - No tienes conexion a internet"
+                    + "\n    - Esta apagada la base de datos\n    -Se han cambiado las credenciales de la base de datos"
+                    + "\nEn algunos de los dos casos anteriores contacte con el administrador");
+            System.err.println(e);
             return null;
         }
     }
@@ -289,6 +300,7 @@ public class Controlador implements ActionListener {
                     mensaje("Deuda generada");
                 } catch (Exception e) {
                     error("Error al guardar la deuda, verifica tu conexion a internet");
+                    System.err.println(e);
                 }
 
             } else {
